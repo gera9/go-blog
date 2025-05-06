@@ -1,0 +1,27 @@
+# Use postgres/example user/password credentials
+services:
+  db:
+    image: postgres:17
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: postgres
+    networks:
+      - go-blog
+
+  go-blog:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      - db
+    networks:
+      - go-blog
+
+networks:
+  go-blog:
