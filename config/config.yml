@@ -1,5 +1,8 @@
 app:
   name: "go-blog"
   port: 3000
+  environment: "local"
 postgres:
   connstr: "postgres://postgres:example@db:5432/postgres?sslmode=disable"
+logger:
+  encoding: json

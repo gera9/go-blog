@@ -1,4 +1,4 @@
-package models
+package sharedmodels
 
 import (
 	"github.com/google/uuid"

@@ -7,14 +7,24 @@ import (
 	"github.com/spf13/viper"
 )
 
+const (
+	Local = "local"
+	Dev   = "dev"
+	Prod  = "prod"
+)
+
 type AppConfig struct {
 	App struct {
-		Name string `mapstructure:"name"`
-		Port int    `mapstructure:"port"`
+		Name        string `mapstructure:"name"`
+		Port        int    `mapstructure:"port"`
+		Environment string `mapstructure:"environment"`
 	} `mapstructure:"app"`
 	Postgres struct {
 		Connstr string `mapstructure:"connstr"`
 	} `mapstructure:"postgres"`
+	Logger struct {
+		Encoding string `mapstructure:"encoding"`
+	} `mapstructure:"logger"`
 }
 
 func GetConfig() (AppConfig, error) {

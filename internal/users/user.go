@@ -1,4 +1,4 @@
-package models
+package users
 
 import (
 	"time"
@@ -13,4 +13,9 @@ type User struct {
 	Username  string
 	Password  string
 	Birthdate time.Time
+}
+
+type QueryList struct {
+	Limit  int
+	Offset int
 }

@@ -1,23 +1,14 @@
 package logger
 
 import (
-	"io"
 	"os"
 
+	"github.com/gera9/go-blog/config"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
-func SetUpZap() *zap.Logger { // The bundled Config struct only supports the most common configuration
-	// options. More complex needs, like splitting logs between multiple files
-	// or writing to non-file outputs, require use of the zapcore package.
-	//
-	// In this example, imagine we're both sending our logs to Kafka and writing
-	// them to the console. We'd like to encode the console output and the Kafka
-	// topics differently, and we'd also like special treatment for
-	// high-priority logs.
-
-	// First, define our level-handling logic.
+func NewZapLogger(cfg config.AppConfig) *zap.Logger {
 	highPriority := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
 		return lvl >= zapcore.ErrorLevel
 	})
@@ -25,32 +16,39 @@ func SetUpZap() *zap.Logger { // The bundled Config struct only supports the mos
 		return lvl < zapcore.ErrorLevel
 	})
 
-	// Assume that we have clients for two Kafka topics. The clients implement
-	// zapcore.WriteSyncer and are safe for concurrent use. (If they only
-	// implement io.Writer, we can use zapcore.AddSync to add a no-op Sync
-	// method. If they're not safe for concurrent use, we can add a protecting
-	// mutex with zapcore.Lock.)
-	topicDebugging := zapcore.AddSync(io.Discard)
-	topicErrors := zapcore.AddSync(io.Discard)
-
-	// High-priority output should also go to standard error, and low-priority
-	// output should also go to standard out.
 	consoleDebugging := zapcore.Lock(os.Stdout)
 	consoleErrors := zapcore.Lock(os.Stderr)
 
-	// Optimize the Kafka output for machine consumption and the console output
-	// for human operators.
-	kafkaEncoder := zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())
-	consoleEncoder := zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
+	var encoderCfg zapcore.EncoderConfig
+	if cfg.App.Environment == config.Dev || cfg.App.Environment == config.Local {
+		encoderCfg = zap.NewDevelopmentEncoderConfig()
+	} else {
+		encoderCfg = zap.NewProductionEncoderConfig()
+	}
 
-	// Join the outputs, encoders, and level-handling functions into
-	// zapcore.Cores, then tee the four cores together.
+	encoderCfg.EncodeTime = zapcore.ISO8601TimeEncoder
+	encoderCfg.LevelKey = "level"
+	encoderCfg.TimeKey = "time"
+	encoderCfg.MessageKey = "msg"
+	encoderCfg.CallerKey = "caller"
+	encoderCfg.StacktraceKey = "stacktrace"
+	encoderCfg.EncodeCaller = zapcore.ShortCallerEncoder
+
+	var encoder zapcore.Encoder
+	if cfg.Logger.Encoding == "json" {
+		encoder = zapcore.NewJSONEncoder(encoderCfg)
+	} else {
+		encoder = zapcore.NewConsoleEncoder(encoderCfg)
+	}
+
 	core := zapcore.NewTee(
-		zapcore.NewCore(kafkaEncoder, topicErrors, highPriority),
-		zapcore.NewCore(consoleEncoder, consoleErrors, highPriority),
-		zapcore.NewCore(kafkaEncoder, topicDebugging, lowPriority),
-		zapcore.NewCore(consoleEncoder, consoleDebugging, lowPriority),
+		zapcore.NewCore(encoder, consoleErrors, highPriority),
+		zapcore.NewCore(encoder, consoleDebugging, lowPriority),
 	)
 
-	return zap.New(core)
+	logger := zap.New(core, zap.AddStacktrace(zap.ErrorLevel), zap.AddCaller())
+
+	zap.ReplaceGlobals(logger)
+
+	return logger
 }
