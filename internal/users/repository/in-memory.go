@@ -3,72 +3,78 @@ package repository
 import (
 	"context"
 	"errors"
+	"sync"
+
 	"slices"
 
 	"github.com/gera9/go-blog/internal/users"
-	"github.com/gera9/go-blog/pkg/utils"
 	"github.com/google/uuid"
 )
 
 type inMemoryRepo struct {
+	mu    sync.RWMutex
 	users []users.User
 }
 
 func NewInMemoryRepository() *inMemoryRepo {
-	return &inMemoryRepo{}
+	return &inMemoryRepo{sync.RWMutex{}, inMemoryUsers}
 }
 
 func (r *inMemoryRepo) Create(ctx context.Context, user users.User) (uuid.UUID, error) {
-	id := uuid.New()
+	r.mu.Lock()
+	defer r.mu.Unlock()
 
-	user.Id = id
-
+	user.Id = uuid.New()
 	r.users = append(r.users, user)
 
-	return id, nil
+	return user.Id, nil
 }
 
 func (r *inMemoryRepo) List(ctx context.Context, q users.QueryList) ([]users.User, int, error) {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+
+	// For now, we ignore filtering/pagination in QueryList
 	return r.users, len(r.users), nil
 }
 
 func (r *inMemoryRepo) GetById(ctx context.Context, id uuid.UUID) (*users.User, error) {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+
 	for _, user := range r.users {
 		if user.Id == id {
-			return &user, nil
+			// return a copy to avoid accidental modification
+			u := user
+			return &u, nil
 		}
 	}
-	return nil, errors.New("not found")
+	return nil, errors.New("user not found")
 }
 
 func (r *inMemoryRepo) UpdateById(ctx context.Context, id uuid.UUID, user users.User) error {
-	for i, v := range r.users {
-		if v.Id != id {
-			continue
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	for i, user := range r.users {
+		if user.Id == id {
+			user.Id = id // ensure ID isn't changed
+			r.users[i] = user
+			return nil
 		}
-
-		err := utils.PatchModel(user, v)
-		if err != nil {
-			return err
-		}
-
-		r.users[i] = v
-
-		return nil
 	}
-	return errors.New("not found")
+	return errors.New("user not found")
 }
 
 func (r *inMemoryRepo) DeleteById(ctx context.Context, id uuid.UUID) error {
-	i := 0
-	for ; i < len(r.users); i++ {
-		if r.users[i].Id == id {
-			break
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	for i, user := range r.users {
+		if user.Id == id {
+			r.users = slices.Delete(r.users, i, i+1)
+			return nil
 		}
-		i++
 	}
-
-	r.users = slices.Delete(r.users, i, i+1)
-
-	return nil
+	return errors.New("user not found")
 }
