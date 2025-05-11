@@ -36,12 +36,12 @@ func (c httpController) Routes(mm *middleware.MiddlewareManager) *chi.Mux {
 }
 
 // CreateUser godoc
-// @Summary Creates a new user
-// @Description Creates a new user
+// @Summary Create new user
+// @Description Create new user
 // @Tags Users
 // @Accept json
 // @Produce json
-// @Param paquete body dtos.CreatePayload true "User payload"
+// @Param paquete body users.CreatePayload true "Create user payload"
 // @Success 201 {object} shareddtos.IdResponse
 // @Failure 400 {object} shareddtos.ErrResponse
 // @Failure 500 {object} shareddtos.ErrResponse
@@ -69,6 +69,17 @@ func (c httpController) Create(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// ListUsers godoc
+// @Summary List users
+// @Description List users
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param limit query string false "Limit"
+// @Param offset query string false "Offset"
+// @Success 200 {object} users.ListResponse
+// @Failure 500 {object} shareddtos.ErrResponse
+// @Router /users [get]
 func (c httpController) List(w http.ResponseWriter, r *http.Request) {
 	q := users.QueryList{
 		Limit:  r.Context().Value(middleware.ContextKeyLimit).(int),
@@ -85,6 +96,17 @@ func (c httpController) List(w http.ResponseWriter, r *http.Request) {
 	render.JSON(w, r, users.ToListResponse(total, userss))
 }
 
+// GetById godoc
+// @Summary Get user by ID
+// @Description Get user by ID
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param id path string true "User ID"
+// @Success 200 {object} users.Response
+// @Failure 400 {object} shareddtos.ErrResponse
+// @Failure 500 {object} shareddtos.ErrResponse
+// @Router /users/{id} [get]
 func (c httpController) GetById(w http.ResponseWriter, r *http.Request) {
 	id, err := utils.IdURLParamToUUID(r, "id")
 	if err != nil {
@@ -102,6 +124,18 @@ func (c httpController) GetById(w http.ResponseWriter, r *http.Request) {
 	render.JSON(w, r, users.ToResponse(*user))
 }
 
+// UpdateUserById godoc
+// @Summary Update user by ID
+// @Description Update user by ID
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param id path string true "User ID"
+// @Param user body users.UpdatePayload true "Update user payload"
+// @Success 204
+// @Failure 400 {object} shareddtos.ErrResponse
+// @Failure 500 {object} shareddtos.ErrResponse
+// @Router /users/{id} [patch]
 func (c httpController) UpdateById(w http.ResponseWriter, r *http.Request) {
 	id, err := utils.IdURLParamToUUID(r, "id")
 	if err != nil {
@@ -123,13 +157,24 @@ func (c httpController) UpdateById(w http.ResponseWriter, r *http.Request) {
 
 	err = c.userSvc.UpdateById(r.Context(), id, payload.ToModel())
 	if err != nil {
-		render.Render(w, r, shareddtos.NewBadRequestErr(err))
+		render.Render(w, r, shareddtos.NewInternalServerErr(err))
 		return
 	}
 
 	w.WriteHeader(http.StatusNoContent)
 }
 
+// DeleteById godoc
+// @Summary Delete user by ID
+// @Description Delete user by ID
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param id path string true "User ID"
+// @Success 200
+// @Failure 400 {object} shareddtos.ErrResponse
+// @Failure 500 {object} shareddtos.ErrResponse
+// @Router /users/{id} [delete]
 func (c httpController) DeleteById(w http.ResponseWriter, r *http.Request) {
 	id, err := utils.IdURLParamToUUID(r, "id")
 	if err != nil {

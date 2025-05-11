@@ -18,6 +18,7 @@ type AppConfig struct {
 		Name        string `mapstructure:"name"`
 		Port        int    `mapstructure:"port"`
 		Environment string `mapstructure:"environment"`
+		Url         string `mapstructure:"url"`
 	} `mapstructure:"app"`
 	Postgres struct {
 		Connstr string `mapstructure:"connstr"`

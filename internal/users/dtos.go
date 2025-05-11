@@ -74,10 +74,8 @@ func ToResponse(u User) Response {
 	}
 }
 
-type ListResponse shareddtos.ListResponse[Response]
-
-func ToListResponse(total int, users []User) ListResponse {
-	listResponse := ListResponse{
+func ToListResponse(total int, users []User) shareddtos.ListResponse[Response] {
+	listResponse := shareddtos.ListResponse[Response]{
 		Total: total,
 		Items: make([]Response, len(users)),
 	}
@@ -87,4 +85,10 @@ func ToListResponse(total int, users []User) ListResponse {
 	}
 
 	return listResponse
+}
+
+// type as workaround for generics bugs with swaggo/swag...
+type ListResponse struct {
+	Total int        `json:"total"`
+	Items []Response `json:"items"`
 }

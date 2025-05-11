@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gera9/go-blog/config"
+	_ "github.com/gera9/go-blog/docs"
 	"github.com/gera9/go-blog/internal/users/delivery"
 	"github.com/gera9/go-blog/internal/users/repository"
 	"github.com/gera9/go-blog/internal/users/service"
@@ -14,6 +15,7 @@ import (
 	"github.com/gera9/go-blog/pkg/postgres"
 	"github.com/go-chi/chi/v5"
 	chiMiddleware "github.com/go-chi/chi/v5/middleware"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"go.uber.org/zap"
 )
 
@@ -60,6 +62,10 @@ func main() {
 		r.Route("/v1", func(r chi.Router) {
 			r.Use()
 			r.Mount("/users", userCtller.Routes(mm))
+
+			r.Get("/swagger/*", httpSwagger.Handler(
+				httpSwagger.URL(fmt.Sprintf("%s/swagger/doc.json", cfg.App.Url)),
+			))
 		})
 	})
 
