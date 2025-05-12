@@ -1,0 +1,7 @@
+{
+    "birthdate": "2006-01-02T15:04:05Z",
+    "first_name": "string",
+    "last_name": "string",
+    "password": "string",
+    "username": "string"
+}

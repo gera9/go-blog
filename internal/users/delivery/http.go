@@ -50,7 +50,7 @@ func (c httpController) Create(w http.ResponseWriter, r *http.Request) {
 	payload := users.CreatePayload{}
 	err := render.Bind(r, &payload)
 	if err != nil {
-		render.Render(w, r, shareddtos.NewBadRequestErr(errors.New("invalid body")))
+		render.Render(w, r, shareddtos.NewBadRequestErr(err, errors.New("invalid body")))
 		return
 	}
 
@@ -61,7 +61,7 @@ func (c httpController) Create(w http.ResponseWriter, r *http.Request) {
 
 	id, err := c.userSvc.Create(r.Context(), payload.ToModel())
 	if err != nil {
-		render.Render(w, r, shareddtos.NewBadRequestErr(err))
+		render.Render(w, r, shareddtos.NewInternalServerErr(err))
 		return
 	}
 
@@ -110,7 +110,7 @@ func (c httpController) List(w http.ResponseWriter, r *http.Request) {
 func (c httpController) GetById(w http.ResponseWriter, r *http.Request) {
 	id, err := utils.IdURLParamToUUID(r, "id")
 	if err != nil {
-		render.Render(w, r, shareddtos.NewBadRequestErr(errors.New("invalid id")))
+		render.Render(w, r, shareddtos.NewBadRequestErr(err, errors.New("invalid id")))
 		return
 	}
 
@@ -139,14 +139,14 @@ func (c httpController) GetById(w http.ResponseWriter, r *http.Request) {
 func (c httpController) UpdateById(w http.ResponseWriter, r *http.Request) {
 	id, err := utils.IdURLParamToUUID(r, "id")
 	if err != nil {
-		render.Render(w, r, shareddtos.NewBadRequestErr(errors.New("invalid id")))
+		render.Render(w, r, shareddtos.NewBadRequestErr(err, errors.New("invalid id")))
 		return
 	}
 
 	payload := users.UpdatePayload{}
 	err = render.Bind(r, &payload)
 	if err != nil {
-		render.Render(w, r, shareddtos.NewBadRequestErr(errors.New("invalid body")))
+		render.Render(w, r, shareddtos.NewBadRequestErr(err, errors.New("invalid body")))
 		return
 	}
 
@@ -178,7 +178,7 @@ func (c httpController) UpdateById(w http.ResponseWriter, r *http.Request) {
 func (c httpController) DeleteById(w http.ResponseWriter, r *http.Request) {
 	id, err := utils.IdURLParamToUUID(r, "id")
 	if err != nil {
-		render.Render(w, r, shareddtos.NewBadRequestErr(errors.New("invalid id")))
+		render.Render(w, r, shareddtos.NewBadRequestErr(err, errors.New("invalid id")))
 		return
 	}
 
