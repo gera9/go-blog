@@ -47,7 +47,7 @@ func (c httpController) Routes(mm *middleware.MiddlewareManager) *chi.Mux {
 // @Failure 500 {object} shareddtos.ErrResponse
 // @Router /users [post]
 func (c httpController) Create(w http.ResponseWriter, r *http.Request) {
-	payload := users.CreatePayload{}
+	payload := CreatePayload{}
 	err := render.Bind(r, &payload)
 	if err != nil {
 		render.Render(w, r, shareddtos.NewBadRequestErr(err, errors.New("invalid body")))
@@ -93,7 +93,7 @@ func (c httpController) List(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	render.JSON(w, r, users.ToListResponse(total, userss))
+	render.JSON(w, r, ToListResponse(total, userss))
 }
 
 // GetById godoc
@@ -121,7 +121,7 @@ func (c httpController) GetById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	render.JSON(w, r, users.ToResponse(*user))
+	render.JSON(w, r, ToResponse(*user))
 }
 
 // UpdateUserById godoc
@@ -143,7 +143,7 @@ func (c httpController) UpdateById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	payload := users.UpdatePayload{}
+	payload := UpdatePayload{}
 	err = render.Bind(r, &payload)
 	if err != nil {
 		render.Render(w, r, shareddtos.NewBadRequestErr(err, errors.New("invalid body")))

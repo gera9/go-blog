@@ -2,11 +2,12 @@
 // github.com/vektra/mockery
 // template: testify
 
-package users
+package mocks
 
 import (
 	"context"
 
+	"github.com/gera9/go-blog/internal/users"
 	"github.com/google/uuid"
 	mock "github.com/stretchr/testify/mock"
 )
@@ -39,7 +40,7 @@ func (_m *MockRepository) EXPECT() *MockRepository_Expecter {
 }
 
 // Create provides a mock function for the type MockRepository
-func (_mock *MockRepository) Create(ctx context.Context, user User) (uuid.UUID, error) {
+func (_mock *MockRepository) Create(ctx context.Context, user users.User) (uuid.UUID, error) {
 	ret := _mock.Called(ctx, user)
 
 	if len(ret) == 0 {
@@ -48,17 +49,17 @@ func (_mock *MockRepository) Create(ctx context.Context, user User) (uuid.UUID, 
 
 	var r0 uuid.UUID
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, User) (uuid.UUID, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, users.User) (uuid.UUID, error)); ok {
 		return returnFunc(ctx, user)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, User) uuid.UUID); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, users.User) uuid.UUID); ok {
 		r0 = returnFunc(ctx, user)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(uuid.UUID)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, User) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, users.User) error); ok {
 		r1 = returnFunc(ctx, user)
 	} else {
 		r1 = ret.Error(1)
@@ -78,9 +79,9 @@ func (_e *MockRepository_Expecter) Create(ctx interface{}, user interface{}) *Mo
 	return &MockRepository_Create_Call{Call: _e.mock.On("Create", ctx, user)}
 }
 
-func (_c *MockRepository_Create_Call) Run(run func(ctx context.Context, user User)) *MockRepository_Create_Call {
+func (_c *MockRepository_Create_Call) Run(run func(ctx context.Context, user users.User)) *MockRepository_Create_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(User))
+		run(args[0].(context.Context), args[1].(users.User))
 	})
 	return _c
 }
@@ -90,7 +91,7 @@ func (_c *MockRepository_Create_Call) Return(uUID uuid.UUID, err error) *MockRep
 	return _c
 }
 
-func (_c *MockRepository_Create_Call) RunAndReturn(run func(ctx context.Context, user User) (uuid.UUID, error)) *MockRepository_Create_Call {
+func (_c *MockRepository_Create_Call) RunAndReturn(run func(ctx context.Context, user users.User) (uuid.UUID, error)) *MockRepository_Create_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -142,23 +143,23 @@ func (_c *MockRepository_DeleteById_Call) RunAndReturn(run func(ctx context.Cont
 }
 
 // GetById provides a mock function for the type MockRepository
-func (_mock *MockRepository) GetById(ctx context.Context, id uuid.UUID) (*User, error) {
+func (_mock *MockRepository) GetById(ctx context.Context, id uuid.UUID) (*users.User, error) {
 	ret := _mock.Called(ctx, id)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetById")
 	}
 
-	var r0 *User
+	var r0 *users.User
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, uuid.UUID) (*User, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, uuid.UUID) (*users.User, error)); ok {
 		return returnFunc(ctx, id)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, uuid.UUID) *User); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, uuid.UUID) *users.User); ok {
 		r0 = returnFunc(ctx, id)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*User)
+			r0 = ret.Get(0).(*users.User)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, uuid.UUID) error); ok {
@@ -188,43 +189,43 @@ func (_c *MockRepository_GetById_Call) Run(run func(ctx context.Context, id uuid
 	return _c
 }
 
-func (_c *MockRepository_GetById_Call) Return(user *User, err error) *MockRepository_GetById_Call {
+func (_c *MockRepository_GetById_Call) Return(user *users.User, err error) *MockRepository_GetById_Call {
 	_c.Call.Return(user, err)
 	return _c
 }
 
-func (_c *MockRepository_GetById_Call) RunAndReturn(run func(ctx context.Context, id uuid.UUID) (*User, error)) *MockRepository_GetById_Call {
+func (_c *MockRepository_GetById_Call) RunAndReturn(run func(ctx context.Context, id uuid.UUID) (*users.User, error)) *MockRepository_GetById_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // List provides a mock function for the type MockRepository
-func (_mock *MockRepository) List(ctx context.Context, q QueryList) ([]User, int, error) {
+func (_mock *MockRepository) List(ctx context.Context, q users.QueryList) ([]users.User, int, error) {
 	ret := _mock.Called(ctx, q)
 
 	if len(ret) == 0 {
 		panic("no return value specified for List")
 	}
 
-	var r0 []User
+	var r0 []users.User
 	var r1 int
 	var r2 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, QueryList) ([]User, int, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, users.QueryList) ([]users.User, int, error)); ok {
 		return returnFunc(ctx, q)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, QueryList) []User); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, users.QueryList) []users.User); ok {
 		r0 = returnFunc(ctx, q)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]User)
+			r0 = ret.Get(0).([]users.User)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, QueryList) int); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, users.QueryList) int); ok {
 		r1 = returnFunc(ctx, q)
 	} else {
 		r1 = ret.Get(1).(int)
 	}
-	if returnFunc, ok := ret.Get(2).(func(context.Context, QueryList) error); ok {
+	if returnFunc, ok := ret.Get(2).(func(context.Context, users.QueryList) error); ok {
 		r2 = returnFunc(ctx, q)
 	} else {
 		r2 = ret.Error(2)
@@ -244,25 +245,25 @@ func (_e *MockRepository_Expecter) List(ctx interface{}, q interface{}) *MockRep
 	return &MockRepository_List_Call{Call: _e.mock.On("List", ctx, q)}
 }
 
-func (_c *MockRepository_List_Call) Run(run func(ctx context.Context, q QueryList)) *MockRepository_List_Call {
+func (_c *MockRepository_List_Call) Run(run func(ctx context.Context, q users.QueryList)) *MockRepository_List_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(QueryList))
+		run(args[0].(context.Context), args[1].(users.QueryList))
 	})
 	return _c
 }
 
-func (_c *MockRepository_List_Call) Return(users []User, n int, err error) *MockRepository_List_Call {
-	_c.Call.Return(users, n, err)
+func (_c *MockRepository_List_Call) Return(users1 []users.User, n int, err error) *MockRepository_List_Call {
+	_c.Call.Return(users1, n, err)
 	return _c
 }
 
-func (_c *MockRepository_List_Call) RunAndReturn(run func(ctx context.Context, q QueryList) ([]User, int, error)) *MockRepository_List_Call {
+func (_c *MockRepository_List_Call) RunAndReturn(run func(ctx context.Context, q users.QueryList) ([]users.User, int, error)) *MockRepository_List_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // UpdateById provides a mock function for the type MockRepository
-func (_mock *MockRepository) UpdateById(ctx context.Context, id uuid.UUID, user User) error {
+func (_mock *MockRepository) UpdateById(ctx context.Context, id uuid.UUID, user users.User) error {
 	ret := _mock.Called(ctx, id, user)
 
 	if len(ret) == 0 {
@@ -270,7 +271,7 @@ func (_mock *MockRepository) UpdateById(ctx context.Context, id uuid.UUID, user 
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, uuid.UUID, User) error); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, uuid.UUID, users.User) error); ok {
 		r0 = returnFunc(ctx, id, user)
 	} else {
 		r0 = ret.Error(0)
@@ -291,9 +292,9 @@ func (_e *MockRepository_Expecter) UpdateById(ctx interface{}, id interface{}, u
 	return &MockRepository_UpdateById_Call{Call: _e.mock.On("UpdateById", ctx, id, user)}
 }
 
-func (_c *MockRepository_UpdateById_Call) Run(run func(ctx context.Context, id uuid.UUID, user User)) *MockRepository_UpdateById_Call {
+func (_c *MockRepository_UpdateById_Call) Run(run func(ctx context.Context, id uuid.UUID, user users.User)) *MockRepository_UpdateById_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(uuid.UUID), args[2].(User))
+		run(args[0].(context.Context), args[1].(uuid.UUID), args[2].(users.User))
 	})
 	return _c
 }
@@ -303,7 +304,7 @@ func (_c *MockRepository_UpdateById_Call) Return(err error) *MockRepository_Upda
 	return _c
 }
 
-func (_c *MockRepository_UpdateById_Call) RunAndReturn(run func(ctx context.Context, id uuid.UUID, user User) error) *MockRepository_UpdateById_Call {
+func (_c *MockRepository_UpdateById_Call) RunAndReturn(run func(ctx context.Context, id uuid.UUID, user users.User) error) *MockRepository_UpdateById_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -336,7 +337,7 @@ func (_m *MockService) EXPECT() *MockService_Expecter {
 }
 
 // Create provides a mock function for the type MockService
-func (_mock *MockService) Create(ctx context.Context, user User) (uuid.UUID, error) {
+func (_mock *MockService) Create(ctx context.Context, user users.User) (uuid.UUID, error) {
 	ret := _mock.Called(ctx, user)
 
 	if len(ret) == 0 {
@@ -345,17 +346,17 @@ func (_mock *MockService) Create(ctx context.Context, user User) (uuid.UUID, err
 
 	var r0 uuid.UUID
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, User) (uuid.UUID, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, users.User) (uuid.UUID, error)); ok {
 		return returnFunc(ctx, user)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, User) uuid.UUID); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, users.User) uuid.UUID); ok {
 		r0 = returnFunc(ctx, user)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(uuid.UUID)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, User) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, users.User) error); ok {
 		r1 = returnFunc(ctx, user)
 	} else {
 		r1 = ret.Error(1)
@@ -375,9 +376,9 @@ func (_e *MockService_Expecter) Create(ctx interface{}, user interface{}) *MockS
 	return &MockService_Create_Call{Call: _e.mock.On("Create", ctx, user)}
 }
 
-func (_c *MockService_Create_Call) Run(run func(ctx context.Context, user User)) *MockService_Create_Call {
+func (_c *MockService_Create_Call) Run(run func(ctx context.Context, user users.User)) *MockService_Create_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(User))
+		run(args[0].(context.Context), args[1].(users.User))
 	})
 	return _c
 }
@@ -387,7 +388,7 @@ func (_c *MockService_Create_Call) Return(uUID uuid.UUID, err error) *MockServic
 	return _c
 }
 
-func (_c *MockService_Create_Call) RunAndReturn(run func(ctx context.Context, user User) (uuid.UUID, error)) *MockService_Create_Call {
+func (_c *MockService_Create_Call) RunAndReturn(run func(ctx context.Context, user users.User) (uuid.UUID, error)) *MockService_Create_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -439,23 +440,23 @@ func (_c *MockService_DeleteById_Call) RunAndReturn(run func(ctx context.Context
 }
 
 // GetById provides a mock function for the type MockService
-func (_mock *MockService) GetById(ctx context.Context, id uuid.UUID) (*User, error) {
+func (_mock *MockService) GetById(ctx context.Context, id uuid.UUID) (*users.User, error) {
 	ret := _mock.Called(ctx, id)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetById")
 	}
 
-	var r0 *User
+	var r0 *users.User
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, uuid.UUID) (*User, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, uuid.UUID) (*users.User, error)); ok {
 		return returnFunc(ctx, id)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, uuid.UUID) *User); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, uuid.UUID) *users.User); ok {
 		r0 = returnFunc(ctx, id)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*User)
+			r0 = ret.Get(0).(*users.User)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, uuid.UUID) error); ok {
@@ -485,43 +486,43 @@ func (_c *MockService_GetById_Call) Run(run func(ctx context.Context, id uuid.UU
 	return _c
 }
 
-func (_c *MockService_GetById_Call) Return(user *User, err error) *MockService_GetById_Call {
+func (_c *MockService_GetById_Call) Return(user *users.User, err error) *MockService_GetById_Call {
 	_c.Call.Return(user, err)
 	return _c
 }
 
-func (_c *MockService_GetById_Call) RunAndReturn(run func(ctx context.Context, id uuid.UUID) (*User, error)) *MockService_GetById_Call {
+func (_c *MockService_GetById_Call) RunAndReturn(run func(ctx context.Context, id uuid.UUID) (*users.User, error)) *MockService_GetById_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // List provides a mock function for the type MockService
-func (_mock *MockService) List(ctx context.Context, q QueryList) ([]User, int, error) {
+func (_mock *MockService) List(ctx context.Context, q users.QueryList) ([]users.User, int, error) {
 	ret := _mock.Called(ctx, q)
 
 	if len(ret) == 0 {
 		panic("no return value specified for List")
 	}
 
-	var r0 []User
+	var r0 []users.User
 	var r1 int
 	var r2 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, QueryList) ([]User, int, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, users.QueryList) ([]users.User, int, error)); ok {
 		return returnFunc(ctx, q)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, QueryList) []User); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, users.QueryList) []users.User); ok {
 		r0 = returnFunc(ctx, q)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]User)
+			r0 = ret.Get(0).([]users.User)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, QueryList) int); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, users.QueryList) int); ok {
 		r1 = returnFunc(ctx, q)
 	} else {
 		r1 = ret.Get(1).(int)
 	}
-	if returnFunc, ok := ret.Get(2).(func(context.Context, QueryList) error); ok {
+	if returnFunc, ok := ret.Get(2).(func(context.Context, users.QueryList) error); ok {
 		r2 = returnFunc(ctx, q)
 	} else {
 		r2 = ret.Error(2)
@@ -541,25 +542,25 @@ func (_e *MockService_Expecter) List(ctx interface{}, q interface{}) *MockServic
 	return &MockService_List_Call{Call: _e.mock.On("List", ctx, q)}
 }
 
-func (_c *MockService_List_Call) Run(run func(ctx context.Context, q QueryList)) *MockService_List_Call {
+func (_c *MockService_List_Call) Run(run func(ctx context.Context, q users.QueryList)) *MockService_List_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(QueryList))
+		run(args[0].(context.Context), args[1].(users.QueryList))
 	})
 	return _c
 }
 
-func (_c *MockService_List_Call) Return(users []User, n int, err error) *MockService_List_Call {
-	_c.Call.Return(users, n, err)
+func (_c *MockService_List_Call) Return(users1 []users.User, n int, err error) *MockService_List_Call {
+	_c.Call.Return(users1, n, err)
 	return _c
 }
 
-func (_c *MockService_List_Call) RunAndReturn(run func(ctx context.Context, q QueryList) ([]User, int, error)) *MockService_List_Call {
+func (_c *MockService_List_Call) RunAndReturn(run func(ctx context.Context, q users.QueryList) ([]users.User, int, error)) *MockService_List_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // UpdateById provides a mock function for the type MockService
-func (_mock *MockService) UpdateById(ctx context.Context, id uuid.UUID, user User) error {
+func (_mock *MockService) UpdateById(ctx context.Context, id uuid.UUID, user users.User) error {
 	ret := _mock.Called(ctx, id, user)
 
 	if len(ret) == 0 {
@@ -567,7 +568,7 @@ func (_mock *MockService) UpdateById(ctx context.Context, id uuid.UUID, user Use
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, uuid.UUID, User) error); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, uuid.UUID, users.User) error); ok {
 		r0 = returnFunc(ctx, id, user)
 	} else {
 		r0 = ret.Error(0)
@@ -588,9 +589,9 @@ func (_e *MockService_Expecter) UpdateById(ctx interface{}, id interface{}, user
 	return &MockService_UpdateById_Call{Call: _e.mock.On("UpdateById", ctx, id, user)}
 }
 
-func (_c *MockService_UpdateById_Call) Run(run func(ctx context.Context, id uuid.UUID, user User)) *MockService_UpdateById_Call {
+func (_c *MockService_UpdateById_Call) Run(run func(ctx context.Context, id uuid.UUID, user users.User)) *MockService_UpdateById_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(uuid.UUID), args[2].(User))
+		run(args[0].(context.Context), args[1].(uuid.UUID), args[2].(users.User))
 	})
 	return _c
 }
@@ -600,7 +601,7 @@ func (_c *MockService_UpdateById_Call) Return(err error) *MockService_UpdateById
 	return _c
 }
 
-func (_c *MockService_UpdateById_Call) RunAndReturn(run func(ctx context.Context, id uuid.UUID, user User) error) *MockService_UpdateById_Call {
+func (_c *MockService_UpdateById_Call) RunAndReturn(run func(ctx context.Context, id uuid.UUID, user users.User) error) *MockService_UpdateById_Call {
 	_c.Call.Return(run)
 	return _c
 }

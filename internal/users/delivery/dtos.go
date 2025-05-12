@@ -1,4 +1,4 @@
-package users
+package delivery
 
 import (
 	"net/http"
@@ -6,6 +6,7 @@ import (
 	"time"
 
 	shareddtos "github.com/gera9/go-blog/internal/shared-models/dtos"
+	"github.com/gera9/go-blog/internal/users"
 )
 
 type CreatePayload struct {
@@ -24,8 +25,8 @@ func (p CreatePayload) IsValid() bool {
 	return !reflect.DeepEqual(p, CreatePayload{})
 }
 
-func (p CreatePayload) ToModel() User {
-	return User{
+func (p CreatePayload) ToModel() users.User {
+	return users.User{
 		FirstName: p.FirstName,
 		LastName:  p.LastName,
 		Username:  p.Username,
@@ -48,8 +49,8 @@ func (p UpdatePayload) IsValid() bool {
 	return !reflect.DeepEqual(p, UpdatePayload{})
 }
 
-func (p UpdatePayload) ToModel() User {
-	return User{
+func (p UpdatePayload) ToModel() users.User {
+	return users.User{
 		FirstName: p.FirstName,
 		LastName:  p.LastName,
 		Username:  p.Username,
@@ -64,7 +65,7 @@ type Response struct {
 	Birthdate time.Time `json:"birthdate"`
 }
 
-func ToResponse(u User) Response {
+func ToResponse(u users.User) Response {
 	return Response{
 		Id:        u.Id.String(),
 		FirstName: u.FirstName,
@@ -74,7 +75,7 @@ func ToResponse(u User) Response {
 	}
 }
 
-func ToListResponse(total int, users []User) shareddtos.ListResponse[Response] {
+func ToListResponse(total int, users []users.User) shareddtos.ListResponse[Response] {
 	listResponse := shareddtos.ListResponse[Response]{
 		Total: total,
 		Items: make([]Response, len(users)),

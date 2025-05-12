@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/gera9/go-blog/internal/users"
+	"github.com/gera9/go-blog/internal/users/mocks"
 	"github.com/gera9/go-blog/pkg/middleware"
 	testutils "github.com/gera9/go-blog/pkg/utils/tests"
 	"github.com/google/uuid"
@@ -62,7 +63,7 @@ func Test_httpController_Create(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			serviceMock := new(users.MockService)
+			serviceMock := new(mocks.MockService)
 
 			tt.mockSetup(serviceMock)
 
@@ -131,7 +132,7 @@ func Test_httpController_List(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			serviceMock := new(users.MockService)
+			serviceMock := new(mocks.MockService)
 
 			tt.mockSetup(serviceMock)
 
@@ -206,7 +207,7 @@ func Test_httpController_GetById(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			serviceMock := new(users.MockService)
+			serviceMock := new(mocks.MockService)
 
 			tt.mockSetup(serviceMock)
 
@@ -277,7 +278,7 @@ func Test_httpController_UpdateById(t *testing.T) {
 				return
 			}
 
-			serviceMock := new(users.MockService)
+			serviceMock := new(mocks.MockService)
 
 			tt.mockSetup(serviceMock)
 
@@ -339,7 +340,7 @@ func Test_httpController_DeleteById(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			serviceMock := new(users.MockService)
+			serviceMock := new(mocks.MockService)
 
 			tt.mockSetup(serviceMock)
 
