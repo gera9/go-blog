@@ -64,7 +64,7 @@ func Test_httpController_Create(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			serviceMock := new(users.MockService)
 
-			tt.mockSetup(&serviceMock.Mock)
+			tt.mockSetup(serviceMock)
 
 			c := httpController{
 				userSvc: serviceMock,
@@ -133,7 +133,7 @@ func Test_httpController_List(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			serviceMock := new(users.MockService)
 
-			tt.mockSetup(&serviceMock.Mock)
+			tt.mockSetup(serviceMock)
 
 			c := httpController{
 				userSvc: serviceMock,
@@ -208,7 +208,7 @@ func Test_httpController_GetById(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			serviceMock := new(users.MockService)
 
-			tt.mockSetup(&serviceMock.Mock)
+			tt.mockSetup(serviceMock)
 
 			c := httpController{
 				userSvc: serviceMock,
@@ -279,7 +279,7 @@ func Test_httpController_UpdateById(t *testing.T) {
 
 			serviceMock := new(users.MockService)
 
-			tt.mockSetup(&serviceMock.Mock)
+			tt.mockSetup(serviceMock)
 
 			c := httpController{
 				userSvc: serviceMock,
@@ -341,7 +341,7 @@ func Test_httpController_DeleteById(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			serviceMock := new(users.MockService)
 
-			tt.mockSetup(&serviceMock.Mock)
+			tt.mockSetup(serviceMock)
 
 			c := httpController{
 				userSvc: serviceMock,

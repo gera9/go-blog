@@ -14,14 +14,18 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-var (
+const (
 	ExampleId = "24318026-421d-4aaf-bbf1-b2f7c4715597"
 )
 
-type SetUpMock func(m *mock.Mock)
+type Mock interface {
+	On(methodName string, arguments ...any) *mock.Call
+}
+
+type SetUpMock func(m Mock)
 
 func SetUpReturnMock(methodName string, arguments, returnArguments []any) SetUpMock {
-	return func(m *mock.Mock) {
+	return func(m Mock) {
 		m.On(methodName, arguments...).
 			Return(returnArguments...)
 	}
