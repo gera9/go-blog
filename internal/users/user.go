@@ -7,12 +7,13 @@ import (
 )
 
 type User struct {
-	Id        uuid.UUID
-	FirstName string
-	LastName  string
-	Username  string
-	Password  string
-	Birthdate time.Time
+	Id           uuid.UUID
+	FirstName    string
+	LastName     string
+	Username     string
+	Email        string
+	PasswordHash string
+	Birthdate    time.Time
 }
 
 type QueryList struct {

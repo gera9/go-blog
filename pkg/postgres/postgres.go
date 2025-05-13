@@ -31,6 +31,7 @@ func GetPostgresConn(connStr string) (*PostgresConn, error) {
 
 			err = db.Ping()
 			if err != nil {
+				db.Close()
 				return nil, err
 			}
 

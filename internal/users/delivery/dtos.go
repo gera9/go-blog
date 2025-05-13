@@ -10,11 +10,12 @@ import (
 )
 
 type CreatePayload struct {
-	FirstName string    `json:"first_name"`
-	LastName  string    `json:"last_name"`
-	Username  string    `json:"username"`
-	Password  string    `json:"password"`
-	Birthdate time.Time `json:"birthdate"`
+	FirstName    string    `json:"first_name"`
+	LastName     string    `json:"last_name"`
+	Email        string    `json:"email"`
+	Username     string    `json:"username"`
+	PasswordHash string    `json:"password_hash"`
+	Birthdate    time.Time `json:"birthdate"`
 }
 
 func (p CreatePayload) Bind(r *http.Request) error {
@@ -27,11 +28,12 @@ func (p CreatePayload) IsValid() bool {
 
 func (p CreatePayload) ToModel() users.User {
 	return users.User{
-		FirstName: p.FirstName,
-		LastName:  p.LastName,
-		Username:  p.Username,
-		Password:  p.Password,
-		Birthdate: p.Birthdate,
+		FirstName:    p.FirstName,
+		LastName:     p.LastName,
+		Email:        p.Email,
+		Username:     p.Username,
+		PasswordHash: p.PasswordHash,
+		Birthdate:    p.Birthdate,
 	}
 }
 
@@ -39,6 +41,7 @@ type UpdatePayload struct {
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 	Username  string `json:"username"`
+	Email     string `json:"email"`
 }
 
 func (p UpdatePayload) Bind(r *http.Request) error {
@@ -54,6 +57,7 @@ func (p UpdatePayload) ToModel() users.User {
 		FirstName: p.FirstName,
 		LastName:  p.LastName,
 		Username:  p.Username,
+		Email:     p.Email,
 	}
 }
 
@@ -62,6 +66,7 @@ type Response struct {
 	FirstName string    `json:"first_name"`
 	LastName  string    `json:"last_name"`
 	Username  string    `json:"username"`
+	Email     string    `json:"email"`
 	Birthdate time.Time `json:"birthdate"`
 }
 
@@ -71,6 +76,7 @@ func ToResponse(u users.User) Response {
 		FirstName: u.FirstName,
 		LastName:  u.LastName,
 		Username:  u.Username,
+		Email:     u.Email,
 		Birthdate: u.Birthdate,
 	}
 }

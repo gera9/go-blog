@@ -104,20 +104,22 @@ func Test_httpController_List(t *testing.T) {
 				[]any{
 					[]users.User{
 						{
-							Id:        uuid.Nil,
-							FirstName: "Alice",
-							LastName:  "Smith",
-							Username:  "alice123",
-							Password:  "passAlice!",
-							Birthdate: time.Date(1990, 5, 10, 0, 0, 0, 0, time.UTC),
+							Id:           uuid.Nil,
+							FirstName:    "Alice",
+							LastName:     "Smith",
+							Username:     "alice123",
+							Email:        "email@email.com",
+							PasswordHash: "passAlice!",
+							Birthdate:    time.Date(1990, 5, 10, 0, 0, 0, 0, time.UTC),
 						},
 						{
-							Id:        uuid.Nil,
-							FirstName: "Bob",
-							LastName:  "Johnson",
-							Username:  "bobbyj",
-							Password:  "bobPass2024",
-							Birthdate: time.Date(1985, 8, 20, 0, 0, 0, 0, time.UTC),
+							Id:           uuid.Nil,
+							FirstName:    "Bob",
+							LastName:     "Johnson",
+							Username:     "bobbyj",
+							Email:        "email@email.com",
+							PasswordHash: "bobPass2024",
+							Birthdate:    time.Date(1985, 8, 20, 0, 0, 0, 0, time.UTC),
 						},
 					}, 2, nil,
 				},
@@ -127,7 +129,7 @@ func Test_httpController_List(t *testing.T) {
 				r: httptest.NewRequest(http.MethodGet, "/users?limit=10&offset=0", nil),
 			},
 			expectedStatusCode: http.StatusOK,
-			expectedResponse:   `{"total":2,"items":[{"id":"00000000-0000-0000-0000-000000000000","first_name":"Alice","last_name":"Smith","username":"alice123","birthdate":"1990-05-10T00:00:00Z"},{"id":"00000000-0000-0000-0000-000000000000","first_name":"Bob","last_name":"Johnson","username":"bobbyj","birthdate":"1985-08-20T00:00:00Z"}]}`,
+			expectedResponse:   `{"total":2,"items":[{"id":"00000000-0000-0000-0000-000000000000","first_name":"Alice","email":"email@email.com","last_name":"Smith","username":"alice123","birthdate":"1990-05-10T00:00:00Z"},{"id":"00000000-0000-0000-0000-000000000000","first_name":"Bob","email":"email@email.com","last_name":"Johnson","username":"bobbyj","birthdate":"1985-08-20T00:00:00Z"}]}`,
 		},
 	}
 	for _, tt := range tests {
@@ -168,12 +170,13 @@ func Test_httpController_GetById(t *testing.T) {
 				[]any{
 					&users.User{
 
-						Id:        uuid.Nil,
-						FirstName: "Alice",
-						LastName:  "Smith",
-						Username:  "alice123",
-						Password:  "passAlice!",
-						Birthdate: time.Date(1990, 5, 10, 0, 0, 0, 0, time.UTC),
+						Id:           uuid.Nil,
+						FirstName:    "Alice",
+						LastName:     "Smith",
+						Username:     "alice123",
+						Email:        "email@email.com",
+						PasswordHash: "passAlice!",
+						Birthdate:    time.Date(1990, 5, 10, 0, 0, 0, 0, time.UTC),
 					},
 					nil,
 				},
@@ -184,7 +187,7 @@ func Test_httpController_GetById(t *testing.T) {
 			},
 			id:                 testutils.ExampleId,
 			expectedStatusCode: http.StatusOK,
-			expectedResponse:   `{"id":"00000000-0000-0000-0000-000000000000","first_name":"Alice","last_name":"Smith","username":"alice123","birthdate":"1990-05-10T00:00:00Z"}`,
+			expectedResponse:   `{"id":"00000000-0000-0000-0000-000000000000","first_name":"Alice","email":"email@email.com","last_name":"Smith","username":"alice123","birthdate":"1990-05-10T00:00:00Z"}`,
 		},
 		{
 			name: "GetById service error",

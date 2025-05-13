@@ -41,7 +41,7 @@ func (c httpController) Routes(mm *middleware.MiddlewareManager) *chi.Mux {
 // @Tags Users
 // @Accept json
 // @Produce json
-// @Param paquete body users.CreatePayload true "Create user payload"
+// @Param paquete body CreatePayload true "Create user payload"
 // @Success 201 {object} shareddtos.IdResponse
 // @Failure 400 {object} shareddtos.ErrResponse
 // @Failure 500 {object} shareddtos.ErrResponse
@@ -77,7 +77,7 @@ func (c httpController) Create(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param limit query string false "Limit"
 // @Param offset query string false "Offset"
-// @Success 200 {object} users.ListResponse
+// @Success 200 {object} ListResponse
 // @Failure 500 {object} shareddtos.ErrResponse
 // @Router /users [get]
 func (c httpController) List(w http.ResponseWriter, r *http.Request) {
@@ -103,7 +103,7 @@ func (c httpController) List(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param id path string true "User ID"
-// @Success 200 {object} users.Response
+// @Success 200 {object} Response
 // @Failure 400 {object} shareddtos.ErrResponse
 // @Failure 500 {object} shareddtos.ErrResponse
 // @Router /users/{id} [get]
@@ -131,7 +131,7 @@ func (c httpController) GetById(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param id path string true "User ID"
-// @Param user body users.UpdatePayload true "Update user payload"
+// @Param user body UpdatePayload true "Update user payload"
 // @Success 204
 // @Failure 400 {object} shareddtos.ErrResponse
 // @Failure 500 {object} shareddtos.ErrResponse
